@@ -1,0 +1,28 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <cctype>
+using namespace std;
+//建立map映射比较出现次数 
+int m1[26];
+int m2[26];
+int main(int argc, char *argv[]) {
+	bool flag=true;
+	string s1,s2;
+	cin>>s1>>s2;
+	for(int i=0;i<s1.length();i++){
+		m1[(tolower(s1[i])-'a')]++; 
+	}
+	for(int i=0;i<s2.length();i++){
+		m2[(tolower(s2[i])-'a')]++; 
+	}
+	for(int i=0;i<26;i++){
+		if(m1[i]!=m2[i]){
+			flag=false;
+			break;	
+		}
+	}
+	if(flag)cout<<"Y";
+	else cout<<"N"; 
+	return 0;
+}
