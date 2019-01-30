@@ -1,0 +1,35 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <string.h>
+#include <vector>
+using namespace std;
+int cmp(int a,int b){
+	return a>b;
+}
+
+int main(int argc, char *argv[]) {
+
+	int n;
+	cin>>n;
+	vector<int> v(n);
+	for(int i=0;i<n;i++){
+		cin>>v[i];
+	}
+	int m;
+	cin>>m;
+	vector<int> res(m);
+	for(int i=0;i<m;i++){
+		int l,r,k;
+		cin>>l>>r>>k;
+		int *temp=new int[n];
+		for(int j=0;j<n;j++)temp[j]=v[j];
+		sort(temp+l-1,temp+r,cmp);
+		res[i]=temp[l-1+k-1];
+		delete []temp;
+	}
+	for(int i=0;i<m;i++){
+		cout<<res[i]<<endl;
+	}
+	return 0;
+}
