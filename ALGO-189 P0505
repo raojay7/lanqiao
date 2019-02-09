@@ -1,0 +1,31 @@
+import java.io.BufferedInputStream;
+import java.math.BigInteger;
+import java.util.Scanner;
+
+public class Main {
+
+
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(new BufferedInputStream(System.in));
+        //设置长度为101
+        BigInteger[] bigIntegers=new BigInteger[101];
+        bigIntegers[0]=new BigInteger("1");
+        bigIntegers[1]=new BigInteger("1");
+        for (int i=2;i<=100;i++){
+            bigIntegers[i]=bigIntegers[i-1].multiply(new BigInteger(i+""));
+        }
+        int n=sc.nextInt();
+        String s = bigIntegers[n].toString();
+        char c='\0';
+        for (int i=s.length()-1;i>=0;i--){
+            if(s.charAt(i)!='0'){
+                c=s.charAt(i);
+                break;
+            }
+        }
+        System.out.println(c);
+    }
+
+
+}
+
