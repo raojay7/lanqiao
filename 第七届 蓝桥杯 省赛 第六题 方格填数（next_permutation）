@@ -1,0 +1,28 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <map>
+#include <queue>
+#include <cstdio>
+using namespace std;
+//利用算法库的next_permuation来计算
+int a[10]={0,1,2,3,4,5,6,7,8,9};
+bool judge(int x,int y){
+    return (a[x]-a[y]==1)||(a[y]-a[x]==1);
+}
+bool fun(){
+    if(judge(0, 1) || judge(0, 3) ||judge(0, 4) ||judge(0, 5) ||judge(1, 2)||judge(1, 4) ||judge(1, 5) ||judge(1,6) ||judge(2, 5) ||judge(2, 6) ||judge(3, 4) ||judge(3, 7) ||judge(3, 8) ||  judge(4, 5) ||judge(4, 7) || judge(4, 8) ||judge(4, 9) ||judge(5, 6) ||judge(5, 8) || judge(5, 9) || judge(6, 9)|| judge(7, 8) ||judge(8, 9))return false;
+    return true;
+}
+int main() {
+    int n=1,cnt=0;
+    for (int i = 1; i <=10; ++i) {
+        n=n*i;
+    }
+    for (int i = 1; i < n; ++i) {
+        next_permutation(a,a+10);
+        if (fun())cnt++;
+    }
+    cout<<cnt;
+    return 0;
+}
