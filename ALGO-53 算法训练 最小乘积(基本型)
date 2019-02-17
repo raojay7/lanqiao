@@ -1,0 +1,34 @@
+import java.io.BufferedInputStream;
+import java.util.*;
+
+public class Main {
+
+
+    //贪心，将数组排序，然后将小的乘大的
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(new BufferedInputStream(System.in));
+        int n=sc.nextInt();
+        for (int i = 0; i < n; i++) {
+            int size=sc.nextInt();
+            int[] a=new int[size];
+            for (int j = 0; j < size; j++) {
+                a[j]=sc.nextInt();
+            }
+            int[] b=new int[size];
+            for (int j = 0; j < size; j++) {
+                b[j]=sc.nextInt();
+            }
+            Arrays.sort(a);
+            Arrays.sort(b);
+            int ans=0;
+            for (int j = 0; j < size; j++) {
+                ans+=a[j]*b[size-j-1];
+            }
+            System.out.println(ans);
+        }
+    }
+
+
+}
+
