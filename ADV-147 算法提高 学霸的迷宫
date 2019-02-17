@@ -1,0 +1,94 @@
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.util.*;
+
+public class Main {
+    /*
+    宽搜+保存路径
+    保存路径采用栈+字典序加入
+    进行一次宽搜，按照字典序加入队列，如果发现了重点那么此时的路径就是最短的并且字典序最小的路
+     */
+
+    static class P{
+        int x,y;
+        P pre;
+        char c;
+        P(int x,int y,P pre,char c){
+            this.x=x;
+            this.y=y;
+            this.pre=pre;
+            this.c=c;
+        }
+    }
+    static int[][] a;
+    static int[][] b = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};//UDLR
+    //返回对应的字典序
+    static char getChar(int index) {
+        switch (index) {
+            case 0:
+                return 'U';
+            case 1:
+                return 'D';
+            case 2:
+                return 'L';
+            case 3:
+                return 'R';
+        }
+        return '\0';
+    }
+
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(new BufferedInputStream(System.in));
+        int n, m;
+        n = sc.nextInt();
+        m = sc.nextInt();
+        a = new int[n][m];//直接用a做为visit标记
+        for (int i = 0; i < n; i++) {
+            String str = sc.next();
+            for (int j = 0; j < m; j++) {
+                a[i][j] = str.charAt(j) - '0';
+            }
+        }
+        //开始bfs
+        Queue<P> queue=new LinkedList<>();
+        boolean flag=true;
+        queue.offer(new P(0,0,null,'N'));
+        a[0][0]=1;
+        P tail=null;//指向终点
+        while(!queue.isEmpty()&&flag){
+            P poll = queue.poll();
+            int x=poll.x;
+            int y=poll.y;
+            for (int i = 0; i < 4; i++) {
+                int nx=x+b[i][0];
+                int ny=y+b[i][1];
+                if(nx<0||ny<0||nx>=n||ny>=m||a[nx][ny]==1)continue;
+                a[nx][ny]=1;//放置其访问
+                queue.offer(new P(nx,ny,poll,getChar(i)));
+                //判断是否到了终点
+                if(nx==n-1&&ny==m-1){
+                    flag=false;
+                    tail=new P(nx,ny,poll,getChar(i));
+                    break;
+                }
+            }
+        }
+        queue=null;
+        Stack<P> stack=new Stack<>();
+        //如果遍历到了起点就不加入栈
+        P p=tail;
+        while(p.pre!=null){
+            stack.push(p);
+            p=p.pre;
+        }
+        int size=stack.size();
+        System.out.println(size);
+        while(!stack.empty()){
+            System.out.print(stack.pop().c);
+        }
+
+    }
+
+}
