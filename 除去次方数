@@ -1,0 +1,30 @@
+import java.util.*;
+public class Main{
+    /*
+
+自然数的平方数是：1 4 9 16 25 …
+自然数的立方数是：1 8 27 64 125 …
+自然数的4次方数是：1 16 81 256 …
+…
+这些数字都可以称为次方数。
+1~10000中，去掉所有的次方数，还剩下多少个数字？
+
+参考答案：
+9875
+     */
+    public static void main(String args[]) {
+        Scanner scanner = new Scanner(System.in);
+        int sum=9999;
+        Set<Integer> set=new HashSet<>();
+        for (int i = 2; i <= 10000 ; i++) {
+            for (int j = 2; j <= 1000; j++) {
+                int ans=(int)Math.pow(i,j);
+                if (ans>10000)break;
+                System.out.print(ans+" ");
+                set.add(ans);
+            }
+        }
+        System.out.println();
+        System.out.println(sum-set.size());
+    }
+}
