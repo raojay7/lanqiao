@@ -1,0 +1,44 @@
+import java.util.*;
+public class Main{
+    /*
+
+某电视台举办了低碳生活大奖赛。题目的计分规则相当奇怪：
+每位选手需要回答10个问题（其编号为1到10），越后面越有难度。答对的，当前分数翻倍；答错了则扣掉与题号相同的分数（选手必须回答问题，不回答按错误处理）。
+每位选手都有一个起步的分数为10分。
+某获胜选手最终得分刚好是100分，如果不让你看比赛过程，你能推断出他（她）哪个题目答对了，哪个题目答错了吗？
+如果把答对的记为1，答错的记为0，则10个题目的回答情况可以用仅含有1和0的串来表示。例如：0010110011 就是可能的情况。
+你的任务是算出所有可能情况。每个答案占一行。
+多个答案顺序不重要。
+
+答案写在“解答.txt”中，不要写在这里！
+
+参考答案：
+0010110011  (0分)
+0111010000  (4分)
+1011010000  (4分)
+     */
+    public static void main(String args[]) {
+        Scanner scanner = new Scanner(System.in);
+        dfs(0,10,10,new ArrayList<>());//第0层，当前10分，总共n道题,编号为1~10
+    }
+    static void dfs(int layer,int sum,int n,List<Integer> list){
+
+        if(n==layer){
+            if(sum==100) {
+                for (int i = 0; i < list.size(); i++) {
+                    System.out.print(list.get(i) + " ");
+                }
+                System.out.println();
+            }
+            return;
+        }
+        //yes
+        list.add(1);
+        dfs(layer+1,sum*2,n,list);
+        list.remove(list.size()-1);
+        //no
+        list.add(0);
+        dfs(layer+1,sum-layer-1,n,list);
+        list.remove(list.size()-1);
+    }
+}
