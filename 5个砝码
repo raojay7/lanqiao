@@ -23,21 +23,19 @@ public class Main{
                 System.out.print(list.get(i)+" ");
             }
             System.out.println();
-            System.exit(0);
             return;
         }
 
         for (int i = begin; i < n; i++) {
-            if(sum+nums[begin]<=target){
-                list.add(nums[begin]);
-                dfs(target,n,list,begin+1,nums,sum+nums[begin]);
+            if(sum+nums[i]<=target){
+                list.add(nums[i]);
+                dfs(target,n,list,i+1,nums,sum+nums[i]);
                 list.remove(list.size()-1);
 
-                list.add(-nums[begin]);
-                dfs(target,n,list,begin+1,nums,sum-nums[begin]);
+                list.add(-nums[i]);
+                dfs(target,n,list,i+1,nums,sum-nums[i]);
                 list.remove(list.size()-1);
 
-                dfs(target,n,list,begin+1,nums,sum);
             }
 
         }
