@@ -1,0 +1,42 @@
+import java.io.BufferedInputStream;
+import java.math.BigInteger;
+import java.util.*;
+
+public class Main {
+    /*
+x星球的盛大节日为增加气氛，用30台机光器一字排开，向太空中打出光柱。
+安装调试的时候才发现，不知什么原因，相邻的两台激光器不能同时打开！
+国王很想知道，在目前这种bug存在的情况下，一共能打出多少种激光效果？
+
+
+显然，如果只有3台机器，一共可以成5种样式，即：
+全都关上（sorry, 此时无声胜有声，这也算一种）
+开一台，共3种
+开两台，只1种
+
+
+30台就不好算了，国王只好请你帮忙了。
+2178309
+     */
+    static int ans;
+    static int sta[]=new int[52];
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(new BufferedInputStream(System.in));
+        dfs(1);
+        System.out.println(ans);
+    }
+
+    static void dfs(int begin) {
+        if (begin==31){
+            ans++;
+            return;
+        }
+        dfs(begin+1);
+        if(sta[begin-1]==0){
+            sta[begin]=1;
+            dfs(begin+1);
+            sta[begin]=0;
+        }
+    }
+
+}
