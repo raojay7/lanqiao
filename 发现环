@@ -1,0 +1,128 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.*;
+
+public class Main {
+    /*
+问题描述
+　　小明的实验室有N台电脑，编号1~N。原本这N台电脑之间有N-1条数据链接相连，恰好构成一个树形网络。在树形网络上，任意两台电脑之间有唯一的路径相连。
+
+
+　　不过在最近一次维护网络时，管理员误操作使得某两台电脑之间增加了一条数据链接，于是网络中出现了环路。环路上的电脑由于两两之间不再是只有一条路径，使得这些电脑上的数据传输出现了BUG。
+
+
+　　为了恢复正常传输。小明需要找到所有在环路上的电脑，你能帮助他吗？
+输入格式
+　　第一行包含一个整数N。
+　　以下N行每行两个整数a和b，表示a和b之间有一条数据链接相连。
+
+
+　　对于30%的数据，1 <= N <= 1000
+　　对于100%的数据, 1 <= N <= 100000， 1 <= a, b <= N
+
+
+　　输入保证合法。
+输出格式
+　　按从小到大的顺序输出在环路上的电脑的编号，中间由一个空格分隔。
+样例输入
+5
+1 2
+3 1
+2 4
+2 5
+5 3
+样例输出
+1 2 3 5
+     */
+    //先用并查集的思想，找到环的起点和终点，然后遍历这个图找到对应的结点
+    static int n;
+    static int father[];
+    static List list[];
+    static boolean visited[];
+    static boolean ok=false,flag;
+    //这里要做路径压缩，不然会超时
+    static int find(int x) {
+        int a=x;
+        while (x != father[x]) {
+            x = father[x];
+        }
+        while (a!=father[a]){
+            int z=a;
+            a=father[a];
+            father[z]=x;
+        }
+        return x;
+    }
+
+    static void dfs(int begin, int end) {
+        if (ok)return;
+        if (begin == end) {
+            for (int i = 1; i <= n ; i++) {
+                if (visited[i]) {
+                    if (!flag) {
+                        flag = true;
+                    } else {
+                        System.out.print(" ");
+                    }
+                    System.out.print(i);
+                }
+            }
+            ok=true;//找到了那条路径
+            return;
+        }
+
+        for (int i = 0; i < list[begin].size(); i++) {
+            int next = (Integer) list[begin].get(i);
+            if (!visited[next]) {
+                visited[next]=true;
+                dfs(next, end);
+                visited[next]=false;
+            }
+        }
+
+    }
+
+    public static void main(String args[]) throws Exception{
+//        Scanner sc = new Scanner(new BufferedInputStream(System.in));
+        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+        n = Integer.valueOf(br.readLine());
+        list = new ArrayList[n + 1];
+        visited = new boolean[n + 1];
+        int begin=0, end=0;
+        flag= true;//只要出现了环路结点直接可以不用继续构造图了
+        father = new int[n + 1];
+        for (int i = 1; i <= n; i++) {
+            father[i] = i;
+        }
+        for (int i = 0; i <= n; i++) {
+            list[i] = new ArrayList();
+        }
+
+        for (int i = 1; i <= n; i++) {
+            int a, b;
+            String str[]=br.readLine().split(" ");
+            a = Integer.valueOf(str[0]);
+            b = Integer.valueOf(str[1]);
+            if (flag) {
+                int fa = find(a);
+                int fb = find(b);
+                //之前没有添加过
+                if (fa != fb) {
+                    list[a].add(b);
+                    list[b].add(a);//构造图
+                    father[fa] = fb;//union
+                } else {
+                    begin = a;
+                    end = b;
+                    flag = false;
+                    //确定遍历的起终点
+                }
+            }
+        }
+        visited[begin]=true;
+        dfs(begin, end);
+
+    }
+
+
+}
