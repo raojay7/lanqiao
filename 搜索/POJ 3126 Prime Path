@@ -1,0 +1,53 @@
+#include <iostream>
+#include <vector>
+#include <map>
+#include <string>
+#include <set>
+#include <algorithm>
+#include<stdio.h>
+#include<string.h>
+#include <cmath>
+#include <queue>
+
+using namespace std;
+const int maxn=10005;
+queue<int> q;
+int dis[maxn],a,b,isP[maxn];
+
+int main() {
+    //得到maxn内的素数
+    for (int i = 3; i <= maxn ; ++i) {
+        for (int j = 2; j*j <= i; ++j) {
+            if(i%j==0)isP[i]=1;//不是素数
+        }
+    }
+    int n;
+    cin>>n;
+    while(n--){
+        memset(dis,-1, sizeof(dis));
+        while(!q.empty())q.pop();//注意清空
+        cin>>a>>b;
+        q.push(a);dis[a]=0;
+        while(!q.empty()&&dis[b]==-1){
+            int now=q.front();q.pop();
+            int tmp=1;//用于得到变化的数字
+            for (int k = 1; k <= 4; ++k) {
+                for (int i = 0; i <= 9 ; ++i) {
+                    if(k==4&&i==0)continue;
+                    int nex=(now/(tmp*10))*(tmp*10)+tmp*i+now%tmp;
+                    if(!isP[nex]&&dis[nex]==-1){
+                        dis[nex]=dis[now]+1;
+                        q.push(nex);
+                    }
+                }
+                tmp*=10;
+            }
+        }
+        if(dis[b]==-1){
+            printf("Impossible\n");
+        }else{
+            printf("%d\n",dis[b]);
+        }
+    }
+    return 0;
+}
