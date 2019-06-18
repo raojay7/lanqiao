@@ -1,0 +1,49 @@
+#include <iostream>
+#include <vector>
+//#include <map>
+#include <string>
+#include <set>
+#include <algorithm>
+#include<stdio.h>
+#include<string.h>
+#include <cmath>
+#include <queue>
+
+using namespace std;
+
+int map[22][22];
+int book[22];
+int m,cnt;
+int ans[22];
+void dfs(int step,int num){
+    ans[num]=step;
+    for (int i = 0; i < 3; ++i) {
+        int t=map[step][i];
+        if(m==t&&num==19){
+            printf("%d:  ",cnt++);
+            for (int j = 0; j < 20; ++j) {
+                printf("%d ",ans[j]);
+            }
+            printf("%d\n",m);
+        }
+        if(!book[t]){
+            book[t]=1;
+            dfs(t,num+1);
+            book[t]=0;
+        }
+    }
+}
+int main() {
+    for (int i = 1; i <= 20; ++i) {
+        scanf("%d %d %d",&map[i][0],&map[i][1],&map[i][2]);
+    }
+    while(scanf("%d",&m)!=EOF&&m!=0){
+        cnt=1;
+        memset(book,0, sizeof(book));
+        memset(ans,0, sizeof(ans));
+        book[m]=1;
+        dfs(m,0);
+    }
+    return 0;
+}
+
